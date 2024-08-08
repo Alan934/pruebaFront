@@ -1,0 +1,41 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd frontend
+        - npm install --prefer-offline
+    build:
+      commands:
+        - cd frontend
+        - npm run build
+  artifacts:
+    baseDirectory: frontend/.next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - frontend/node_modules/**/*
+
+backend:
+  phases:
+    preBuild:
+      commands:
+        - cd backend
+        - npm ci
+    build:
+      commands:
+        - cd backend
+        - npm run build # Omitir si no tienes un script de build para el backend
+    postBuild:
+      commands:
+        - echo "Backend build completed."
+  artifacts:
+    baseDirectory: backend # Ajustar si hay artefactos que se deben recoger
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - backend/node_modules/**/*
+
+
